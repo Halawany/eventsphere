@@ -4,7 +4,7 @@ services:
   eventsphere:
     build: .
     restart: always
-    command: python /eventsphere/manage.py runserver 0.0.0.0:8000
+    command: python3 /eventsphere/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/eventsphere
     ports: 
