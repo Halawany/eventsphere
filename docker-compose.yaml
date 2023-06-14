@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  eventsphere:
+    build: .
+    restart: always
+    command: python /eventsphere/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/eventsphere
+    ports: 8000:8000
+    environment:
+      - "DJANGO_SECRET_KEY=django-insecure-wninfy&8g#f#*2hyslww4l2zgmi^hekje6lys*qtz5^^gn=bjr"
+      - "DJANGO_DEBUG=1"
+      - POSTGRES_USER=EventSphereDBUser
+      - POSTGRES_PASSWORD= asdasdhdlfdsiogjfkjgkldfjg78947598345rgdlfkg@$$#%$$^%&^%*
+    depends_on:
+      - db
+  
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=EventSphereDBUser
+      - POSTGRES_PASSWORD= asdasdhdlfdsiogjfkjgkldfjg78947598345rgdlfkg@$$#%$$^%&^%* 
+    ports: 5432:5432
+
+  
+  volumes:
+    postgres_data:
