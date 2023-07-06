@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Docker Django CI
 
 on:
   push:
@@ -16,3 +16,4 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker-compose -f "docker-compose.yaml" up -d --build
+  
