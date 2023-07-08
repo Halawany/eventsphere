@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     # 3rd party apps
 
     'rest_framework',
+    'django_extensions',
 
     # Local apps
     'eventAPI.apps.EventapiConfig',
