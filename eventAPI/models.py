@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 
+from .validators import AllowPositiveDecimalValuesOnly
+
 class Event(models.Model):
 
     organizer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events')
@@ -20,8 +22,9 @@ class Ticket(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='tickets')
     name = models.CharField(max_length=250, null=False, blank=False)
     description = models.TextField(null=False, blank=False)
-    price = models.DecimalField(max_digits=15, decimal_places=2, null=False, blank=False)
-    available_quantity = models.IntegerField(null=False, blank=False)
+    price = models.DecimalField(max_digits=15, decimal_places=2, null=False, blank=False, 
+    validators=[AllowPositiveDecimalValuesOnly,])
+    available_quantity = models.PositiveIntegerField(null=False, blank=False)
 
     def __str__(self):
 
