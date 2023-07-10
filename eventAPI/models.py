@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 
-from .validators import AllowPositiveDecimalValuesOnly
+from .validators import AllowPositiveDecimalValuesOnly, ticket_available_quantity_validator
 
 class Event(models.Model):
 
@@ -24,7 +24,8 @@ class Ticket(models.Model):
     description = models.TextField(null=False, blank=False)
     price = models.DecimalField(max_digits=15, decimal_places=2, null=False, blank=False, 
     validators=[AllowPositiveDecimalValuesOnly,])
-    available_quantity = models.PositiveIntegerField(null=False, blank=False)
+    available_quantity = models.PositiveIntegerField(null=False, blank=False, 
+    validators=[ticket_available_quantity_validator,])
 
     def __str__(self):
 
@@ -44,6 +45,11 @@ class Order(models.Model):
         if self.ticket:
             self.ticket_price = self.ticket.price
             self.total_price = self.ticket_price * self.quantity
+        
+        if self.quantity:
+            self.ticket.available_quantity -= self.quantity
+            self.ticket.save()
+        
         super(Order, self).save(*args, **kwargs)
 
     def __str__(self):
