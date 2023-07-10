@@ -79,7 +79,7 @@ class ModelsTestCase(TestCase):
     
     def test_ticket_quantity(self):
         """Test ticket available quantity"""
-        self.assertEqual(self.ticket.available_quantity, 10)
+        self.assertEqual(self.ticket.available_quantity, 5) # it will be 5 because of orders down the test file
     
     def test_order_owner(self):
         """Test order's owner"""
