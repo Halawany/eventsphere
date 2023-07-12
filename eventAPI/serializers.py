@@ -11,14 +11,20 @@ class EventSerializer(serializers.ModelSerializer):
 
 class TicketSerializer(serializers.ModelSerializer):
 
+    event = serializers.StringRelatedField()
+    event_details = EventSerializer(source='event', read_only=True)
+
     class Meta:
         model = Ticket
-        fields = ('id', 'event', 'name', 'description', 'price', 'available_quantity')
-        read_only_fields = ('id',)
+        fields = ('id', 'event', 'event_details', 'name', 'description', 'price', 'available_quantity')
+        read_only_fields = ('id', 'event_details')
 
 class OrderSerializer(serializers.ModelSerializer):
 
+    ticket_string = serializers.StringRelatedField()
+    ticket_details = TicketSerializer(source='ticket', read_only=True)
+
     class Meta:
         model = Order
-        fields = ('id', 'owner', 'ticket', 'event', 'ticket_price', 'quantity', 'total_price')
+        fields = ('id', 'owner', 'ticket', 'ticket_string', 'ticket_details', 'event', 'ticket_price', 'quantity', 'total_price')
         read_only_fields = ('id', 'owner', 'event', 'ticket_price', 'total_price')
