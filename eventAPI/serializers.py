@@ -11,13 +11,13 @@ class EventSerializer(serializers.ModelSerializer):
 
 class TicketSerializer(serializers.ModelSerializer):
 
-    event = serializers.StringRelatedField()
+    # event = serializers.HyperlinkedRelatedField(view_name='event_list', read_only=True, lookup_field='id', queryset=Event.objects.all())
     event_details = EventSerializer(source='event', read_only=True)
 
     class Meta:
         model = Ticket
-        fields = ('id', 'event', 'event_details', 'name', 'description', 'price', 'available_quantity')
-        read_only_fields = ('id', 'event_details')
+        fields = ('id', 'event', 'event_details',  'name', 'description', 'price', 'available_quantity')
+        read_only_fields = ('id', )
 
 class OrderSerializer(serializers.ModelSerializer):
 

@@ -10,11 +10,11 @@ from .views import (
 )
 
 urlpatterns = [
-    path('api/', EventAPIView.as_view(), name='event_apiview'),
-    path('api/event/<int:pk>', EventAPIOps.as_view(), name="event_op"),
-    path('api/tickets/', TicketAPIView.as_view(), name='ticket_apiview'),
-    path('api/tickets/<int:pk>', TicketAPIOps.as_view(), name='ticket_op'),
-    path('api/orders/', OrderAPIView.as_view(), name='order_apiview'),
-    path('api/orders/<int:pk>', OrderOps.as_view(), name='order_op'),
+    path('api/', EventAPIView.as_view(), name='event_list'),
+    path('api/event/<int:pk>', EventAPIOps.as_view(), name="event_detail"),
+    path('api/tickets/', TicketAPIView.as_view(), name='ticket_list'),
+    path('api/tickets/<int:pk>', TicketAPIOps.as_view(), name='ticket_detail'),
+    path('api/orders/', OrderAPIView.as_view(), name='order_list'),
+    path('api/orders/<int:pk>', OrderOps.as_view(), name='order_detail'),
 
 ]
