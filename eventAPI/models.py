@@ -20,6 +20,7 @@ class Event(models.Model):
 class Ticket(models.Model):
 
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='tickets')
+    organizer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='organizer')
     name = models.CharField(max_length=250, null=False, blank=False)
     description = models.TextField(null=False, blank=False)
     price = models.DecimalField(max_digits=15, decimal_places=2, null=False, blank=False, 
