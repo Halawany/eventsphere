@@ -6,11 +6,13 @@ from rest_framework import status
 
 from .models import Event, Ticket, Order
 from .serializers import EventSerializer, TicketSerializer, OrderSerializer
+from .permissions import IsAuthorOrReadOnly
 
 class EventAPIView(generics.ListCreateAPIView):
     
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    permission_classes = [IsAuthorOrReadOnly, ]
     read_only_fields = ('organizer', 'id')
 
     def __init__(self, *args, **kwargs):
@@ -26,11 +28,13 @@ class EventAPIRetrieveUpdateDeleteDestroy(generics.RetrieveUpdateDestroyAPIView)
 
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    permission_classes = [IsAuthorOrReadOnly, ]
 
 class TicketAPIView(generics.ListCreateAPIView):
 
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+    permission_classes = [IsAuthorOrReadOnly, ]
     read_only_fields = ('id',)
 
     def perform_create(self, serialzier):
@@ -40,10 +44,8 @@ class TicketAPIView(generics.ListCreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        # Get the event associated with the ticket
         event = serializer.validated_data['event']
 
-        # Check if the event belongs to the current user
         if event.organizer != request.user:
             return Response({"message": "You can only create tickets for your own events."},
                             status=status.HTTP_403_FORBIDDEN)
@@ -57,6 +59,7 @@ class TicketAPIRetrieveUpdateDeleteDestroy(generics.RetrieveUpdateDestroyAPIView
 
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+    permission_classes = [IsAuthorOrReadOnly, ]
 
     def get_queryset(self):
         user = self.request.user
@@ -70,6 +73,7 @@ class OrderAPIView(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     read_only_fields = ('id', 'owner', 'ticket','ticket_price', 'total_price')
+    permission_classes = [IsAuthorOrReadOnly, ]
 
     def perform_create(self, serializer):
         ticket_id = self.request.data.get('ticket')
@@ -86,4 +90,4 @@ class OrderAPIRetrieveUpdateDeleteDestroy(generics.RetrieveUpdateDestroyAPIView)
 
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-
+    permission_classes = [IsAuthorOrReadOnly, ]
